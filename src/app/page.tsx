@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 
 export default function Home() {
   return (
@@ -8,11 +9,10 @@ export default function Home() {
         <p className="text-body-md mb-8">
           Secure, functional dashboard for the Profile Intelligence System.
         </p>
-        <Link
-          href="/login"
-          className="inline-block bg-primary text-white px-6 py-2 rounded-button font-medium hover:opacity-90 transition-opacity"
-        >
-          Get Started
+        <Link href="/login">
+          <Button variant="primary" className="px-6 py-2">
+            Get Started
+          </Button>
         </Link>
       </div>
     </main>

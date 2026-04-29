@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${plusJakartaSans.variable}`}>
+      <body className={[inter.variable, plusJakartaSans.variable].join(" ")}>
         {children}
       </body>
     </html>
