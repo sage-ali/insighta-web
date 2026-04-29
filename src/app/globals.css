@@ -1,0 +1,127 @@
+@import 'tailwindcss';
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /*Brand Colors - Insighta Labs+ */
+  --color-primary: #2563eb; /* Blue-600 */
+  --color-text-main: #0f172a; /* Slate-900*/
+
+  /*Status Colors */
+  --color-success: #10b981; /* Emerald-500 */
+  --color-error: #f43f5e; /* Rose-500 */
+  --color-warning: #f59e0b; /* Amber-500*/
+
+  /*Neutral / Surface Colors */
+  --color-bg-main: #f8fafc; /* Slate-50 */
+  --color-border-subtle: #e2e8f0; /* Slate-200 / Based on guidance*/
+  --color-white: #ffffff;
+
+  /*Dark Mode Surface Colors (Simulated Slate Rendering) */
+  --color-dark-bg: #0f172a; /* Deep Slate Background */
+  --color-dark-surface: #1e293b; /* Slate-800 context*/
+  --color-dark-border: #334155;
+
+  /*Font Families*/
+  --font-family-display: 'Plus Jakarta Sans', sans-serif;
+  --font-family-sans: 'Inter', sans-serif;
+
+  /*Typography Scale - Standardized Rem Units */
+  --font-size-title-xl: 2.25rem; /* 36px*/
+  --font-weight-title-xl: 600;
+
+  --font-size-title-lg: 1.5rem; /*24px*/
+  --font-weight-title-lg: 500;
+
+  --font-size-label-md: 0.875rem; /*14px*/
+  --font-weight-label-md: 500;
+
+  --font-size-body-md: 0.875rem; /*14px*/
+  --font-weight-body-md: 400;
+
+  /*Custom Spacing / Border Radius*/
+  --radius-button: 0.5rem;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: var(--font-family-sans);
+  }
+
+  h1,
+  h2,
+  .font-display {
+    font-family: var(--font-family-display);
+  }
+
+  /*Focus States for Inputs (per guidance)*/
+  input:focus,
+  select:focus {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-white),
+      0 0 0 4px var(--color-primary);
+  }
+}
+
+@layer utilities {
+  /*Typography Utility Classes*/
+  .text-title-xl {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-title-xl);
+    font-weight: var(--font-weight-title-xl);
+    letter-spacing: -0.025em;
+  }
+
+  .text-title-lg {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-title-lg);
+    font-weight: var(--font-weight-title-lg);
+  }
+
+  .text-label-md {
+    font-size: var(--font-size-label-md);
+    font-weight: var(--font-weight-label-md);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-slate-500); /* Note: Slate-500 color might need to be defined or used as hex */
+  }
+
+  .text-body-md {
+    font-size: var(--font-size-body-md);
+    font-weight: var(--font-weight-body-md);
+    line-height: 1.5rem;
+  }
+
+  /*Component Layout Utilities*/
+  .insighta-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .insighta-card {
+    background-color: var(--color-dark-surface);
+    border-color: var(--color-dark-border);
+  }
+
+  .table-row-hover {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  .table-row-hover:hover {
+    background-color: #f8fafc; /* Slate-50 */
+  }
+
+  .dark .table-row-hover:hover {
+    background-color: rgba(30, 41, 59, 0.5); /* Slate-800/50 */
+  }
+}
