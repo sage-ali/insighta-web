@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { env } from "./env";
 import { getCsrfToken } from "./csrf";
 
@@ -60,6 +59,7 @@ export async function fetchWithAuth<T>(
 
   if (typeof window === "undefined") {
     try {
+      const { cookies } = await import("next/headers");
       const cookieStore = await cookies();
       const cookieHeader = cookieStore.toString();
       if (cookieHeader) {

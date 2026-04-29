@@ -1,48 +1,58 @@
-export interface Column {
+export interface Column<T extends object> {
   header: string;
-  accessor: string;
+  accessor: keyof T;
+  render?: (value: T[keyof T], row: T) => React.ReactNode;
 }
 
-export interface DataTableProps<T extends Record<string, unknown>> {
-  columns: Column[];
+export interface DataTableProps<T extends object> {
+  columns: Column<T>[];
   data: T[];
+  emptyState?: React.ReactNode;
 }
 
-export function DataTable<T extends Record<string, unknown>>({
+export function DataTable<T extends object>({
   columns,
   data,
+  emptyState = <span className="text-slate-500">No data found.</span>,
 }: DataTableProps<T>) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full">
+      <table className="w-full text-left">
         <thead>
-          <tr className="border-b border-slate-200 dark:border-slate-700">
-            {columns.map((column) => (
+          <tr className="bg-slate-50 border-y border-border-subtle">
+            {columns.map((col) => (
               <th
-                key={column.accessor}
-                className="px-4 py-2 text-left text-sm font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                key={String(col.accessor)}
+                className="px-6 py-3 text-label-md"
               >
-                {column.header}
+                {col.header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody>
-          {data.map((row, rowIndex) => (
-            <tr
-              key={rowIndex}
-              className="table-row-hover border-b border-slate-200 dark:border-slate-700"
-            >
-              {columns.map((column) => (
-                <td
-                  key={`${rowIndex}-${column.accessor}`}
-                  className="px-4 py-2 text-slate-900 dark:text-slate-100"
-                >
-                  {String(row[column.accessor])}
-                </td>
-              ))}
+        <tbody className="divide-y divide-border-subtle">
+          {data.length > 0 ? (
+            data.map((row, rowIndex) => (
+              <tr key={rowIndex} className="table-row-hover">
+                {columns.map((col) => (
+                  <td
+                    key={String(col.accessor)}
+                    className="px-6 py-4 text-body-md text-slate-600"
+                  >
+                    {col.render
+                      ? col.render(row[col.accessor], row)
+                      : String(row[col.accessor] ?? "")}
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={columns.length} className="px-6 py-12 text-center">
+                {emptyState}
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>
