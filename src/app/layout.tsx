@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,8 +25,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={[inter.variable, plusJakartaSans.variable].join(" ")}>
-        {children}
+      <body
+        className={[inter.variable, plusJakartaSans.variable].join(" ")}
+        suppressHydrationWarning
+      >
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
