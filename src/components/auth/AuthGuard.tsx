@@ -12,31 +12,24 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const hasCookie = document.cookie.includes("access_token");
-
-      if (!hasCookie) {
-        router.push("/login?error=unauthorized");
-        setLoading(false);
-        return;
-      }
-
       try {
-        const res = await fetch(`${env.NEXT_PUBLIC_API_BASE_URL}/auth/whoami`, {
-          credentials: "include",
-          headers: { "X-API-Version": "1" },
-        });
+        const res = await fetch(
+          `${env.NEXT_PUBLIC_API_BASE_URL}/api/users/me`,
+          {
+            credentials: "include",
+            headers: { "X-API-Version": "1" },
+          },
+        );
 
         if (!res.ok) {
-          // 401 from whoami means session is dead — redirect to login
           router.push("/login?error=unauthorized");
-          setLoading(false);
           return;
         }
 
         const data: WhoamiResponse = await res.json();
         setUser(data.data);
       } catch {
-        // Network error — still let the user in, pages handle their own errors
+        // Network error — let pages handle their own errors
       } finally {
         setLoading(false);
       }
